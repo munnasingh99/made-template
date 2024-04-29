@@ -1,5 +1,3 @@
-
-
 // 1. This Jayvee model describes a pipeline 
 // from a CSV file in the web 
 // to a SQLite file.
@@ -35,6 +33,7 @@ pipeline AirportsPipeline {
             // 4.Here we are using the column names from the CSV file
             // to define the schema of the SQLite table.
             // The types of the columns are inferred from the data.
+
             "Lfd. Nummer" oftype integer,
             "Name des Flughafens" oftype text,
             "Ort" oftype text,
@@ -80,7 +79,7 @@ valuetype DSTCode oftype text {
     ];
 }
 
-// 7. This constraint works on text valuetypes and requires values 
+// 8. This constraint works on text valuetypes and requires values 
 // to match a given regular expression in order to be valid.
 constraint OnlyCapitalLettersAndDigits on text:
     value matches /^[A-Z0-9]*$/;
