@@ -1,0 +1,87 @@
+// 1. This Jayvee model describes a pipeline 
+// from a CSV file in the web 
+// to a SQLite file with constraints on the data.
+
+pipeline TreesPipeline {
+    // See here for meta-data of the data source
+    // https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv
+
+    // 2. We define the pipeline structure by referencing the blocks used.
+    TreesHttpExtractor
+        -> TreesTextFileInterpreter
+        -> TreesCSVInterpreter
+        -> TreesColumnDeleter;
+
+    TreesColumnDeleter
+        -> TreesTableInterpreter
+        -> TreesSQLiteLoader;
+
+    // 3. After the pipeline structure, we define the blocks used.
+    block TreesHttpExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
+    }
+
+    block TreesTextFileInterpreter oftype TextFileInterpreter { }
+
+    block TreesCSVInterpreter oftype CSVInterpreter { 
+        delimiter: ";";
+    }
+
+    block TreesTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+
+            // 4.Here we are using the column names from the CSV file
+            // to define the schema of the SQLite table.
+            // The types of the columns are inferred from the data.
+
+            "lfd_nr" oftype integer,
+            "stadtteil" oftype ValidCity,
+            "standort" oftype text,
+            "baumart_botanisch" oftype text,
+            "baumart_deutsch" oftype text,
+            "id" oftype ValidIds,
+            "baumfamilie" oftype text,
+        ];
+    }
+    block TreesColumnDeleter oftype ColumnDeleter {
+        delete: [column E];
+    }
+
+    block TreesSQLiteLoader oftype SQLiteLoader {
+        table: "trees";
+        file: "./trees.sqlite";
+    }
+
+}
+
+valuetype ValidCity oftype text {
+    // 5. We define constraints on the IATA code to ensure it is valid according to the schema.
+    constraints: [
+        OnlyCityList,
+    ];
+}
+
+valuetype ValidIds oftype text {
+    // 6. We define constraints on the IATA code to ensure it is valid according to the schema.
+    constraints: [
+        OnlyValidIds,
+    ];
+}
+
+
+
+// 8. This constraint works on text valuetypes and requires values 
+// to match a given regular expression in order to be valid.
+constraint OnlyCityList on text:
+    value in ["Furth-Mitte","Furth-Süd","Furth-Nord","Furth Süd"];
+
+
+
+constraint OnlyValidIds on text:
+    value matches /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;
+
+
+
+
+
