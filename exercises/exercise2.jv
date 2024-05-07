@@ -74,7 +74,7 @@ valuetype ValidIds oftype text {
 // 8. This constraint works on text valuetypes and requires values 
 // to match a given regular expression in order to be valid.
 constraint OnlyCityList on text:
-    value in ["Furth-Mitte","Furth-Süd","Furth-Nord","Furth Süd"];
+    value in ["Furth-Mitte","Furth-Süd","Furth-Nord"];
 
 
 
