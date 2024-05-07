@@ -1,6 +1,6 @@
 // 1. This Jayvee model describes a pipeline 
 // from a CSV file in the web 
-// to a SQLite file with constraints on the data.
+// to a SQLite file with constraints on the data as mentioned in exercise slide.
 
 pipeline TreesPipeline {
     // See here for meta-data of the data source
