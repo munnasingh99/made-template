@@ -18,13 +18,21 @@ In recent times, availability of cheap air travel attracts lot of people to choo
 
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
-### Datasource: European Environment Agency
+### Datasource 1: European Environment Agency
 * Metadata URL: [https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emissions-from-transport?activeAccordion=309c5ef9-de09-4759-bc02-802370dfa366]
 * Data URL: [https://www.eea.europa.eu/data-and-maps/daviz/greenhouse-gas-emissions-from-transport-8#tab-chart_1]
 * Data Type: CSV
 
 Short description of the DataSource.
-This datasource contains both datasource needed fro this project,it present information about CO2 emissions by means of transport in europe.
+This datasource contains datasource needed for this project,it present information about CO2 emissions by means of transport in europe.
+
+### Datasource 2: euorstat
+* Metadata URL: [https://ec.europa.eu/eurostat/cache/metadata/en/rail_pa_total_esms.htm]
+* Data URL: [https://ec.europa.eu/eurostat/databrowser/view/rail_pa_total/default/table?lang=en&category=rail.rail_pa]
+* Data Type: CSV
+
+Short description of the DataSource.
+This datasource contains datasource needed for this project,it present information about total number oof passengers travelled by different means of transport in europe.
 
 ## Work Packages
 
