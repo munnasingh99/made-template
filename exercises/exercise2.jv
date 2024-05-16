@@ -8,6 +8,7 @@ pipeline TreesPipeline {
 
     // 2. We define the pipeline structure by referencing the blocks used.
     TreesHttpExtractor
+        -> TreesTextFileInterpreter
         -> TreesCSVInterpreter
         -> TreesColumnDeleter;
 
@@ -20,6 +21,8 @@ pipeline TreesPipeline {
         url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
     }
 
+    block TreesTextFileInterpreter oftype TextFileInterpreter {}
+    
     block TreesCSVInterpreter oftype CSVInterpreter { 
         delimiter: ";";
     }
