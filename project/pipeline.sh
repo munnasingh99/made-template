@@ -1,4 +1,4 @@
 #!/bin/bash
-pip install pandas sqlite3 requests zipfile
-python3 /project/pipeline.py
+pip install pandas pysqlite3 
+python3 pipeline.py
 #bash
