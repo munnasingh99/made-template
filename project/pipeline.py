@@ -8,7 +8,7 @@ import os
 url = "https://sdi.eea.europa.eu/datashare/s/nQm7mfWywfyLdLX/download"
 
 # describing path to save to given directory and file
-data_dir = "./data"
+data_dir = "data"
 zip_path = os.path.join(data_dir, "dataset.zip")
 csv_path = None
 database_path = os.path.join(data_dir, "dataset.db")
