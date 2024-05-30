@@ -70,7 +70,7 @@ pipeline GoodsPipeline {
     // 4. We delete the column E from the table as it is not required
     block GoodsSQLiteLoader oftype SQLiteLoader {
         table: "goods";
-        file: "./goods.sqlite";
+        file: "./goodsTransportedByTrain.sqlite";
     }
 
 }
