@@ -62,8 +62,8 @@ pipeline GoodsPipeline {
             "goods_id" oftype OnlyValidIds,
             "goods_name" oftype text,
             "goods_source" oftype text,
-            "abroad" oftype text,
-            "total" oftype text,
+            "abroad" oftype PositiveInteger,
+            "total" oftype PositiveInteger,
         ];
     }
 
