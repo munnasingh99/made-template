@@ -23,20 +23,23 @@ pipeline GoodsPipeline {
     }
 
 
-
+    // 4. Encoding to handle German Umlauts.
     block GoodsTextFileInterpreter oftype TextFileInterpreter {
         encoding: "latin2";
     }
 
+    // 5. Delimiter (;) to be used in the CSV file.
     block GoodsCSVInterpreter oftype CSVInterpreter { 
         delimiter: ";";
     
     }
 
+    // 6. Deletion of rows form 1 to 8 from the table as they are not required
     block GoodsRowsDeleter oftype RowDeleter {
         delete: [row 1,row 2,row 3,row 4,row 5,row 6,row 7,row 8];
     }
 
+    // 7. Deletion of column from E to AR
     block GoodsColumnDeleter oftype ColumnDeleter {
         delete: [column F,column G,column H,column I,column J,column K,
         column L,column M,column N,column O,column P,column Q,
@@ -48,7 +51,7 @@ pipeline GoodsPipeline {
     }
 
     
-
+    // 8. We define the schema of the SQLite table to be created.
     block GoodsTableInterpreter oftype TableInterpreter {
         header: false;
         columns: [
@@ -67,14 +70,14 @@ pipeline GoodsPipeline {
         ];
     }
 
-    // 4. We delete the column E from the table as it is not required
+    // 9. SQLite file to be created with the schema defined above.
     block GoodsSQLiteLoader oftype SQLiteLoader {
         table: "goods";
         file: "./goodsTransportedByTrain.sqlite";
     }
 
 }
-    // 5. We define constraints on the stadtteil to ensure it is valid according to the schema.
+    // 10. We define constraints on the different columns to ensure it is valid according to the schema.
     valuetype ValidMonths oftype text {
         constraints: [
             OnlyValidMonthList,
@@ -86,24 +89,23 @@ pipeline GoodsPipeline {
             OnlyValidIdsList,
         ];
     }
-    // 6. We define constraints on the coordinates to ensure it is valid according to the schema.
+
     valuetype PositiveInteger oftype integer {
         constraints: [
             OnlyValidNumbers,
         ];
     }
 
-
-
-    // 7. This constraint ensures that the stadtteil is one of the valid values.For e.g, Furth-Mitte, Furth-Süd, Furth-Nord.
+    // 11. This constraint ensures that the Month column to only contains German Months names.
     constraint OnlyValidMonthList on text:
         value in ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
 
-    // 8. This constraint ensures that the coordinates are in the format of "x.x, y.y".
+    // 12. This constraint ensures that the all the integers entries are positive.
     constraint OnlyValidNumbers on integer:
         value >= 0;
 
+    // 13. This constraint ensures that the goods_id column to only contain values in the format NST7-XXX.
     constraint OnlyValidIdsList on text:
        value matches /^NST7-[A-Z0-9]{3}$/;
 
