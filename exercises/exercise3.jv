@@ -1,0 +1,112 @@
+// 1. This Jayvee model describes a pipeline 
+// from a CSV file in the web 
+// to a SQLite file with constraints on the data as mentioned in exercise slide.
+
+pipeline GoodsPipeline {
+    // See here for meta-data of the data source
+    // https://mobilithek.info/offers/-94981960701408443
+
+    // 2. We define the pipeline structure by referencing the blocks used.
+    GoodsHttpExtractor
+        -> GoodsTextFileInterpreter
+        -> GoodsCSVInterpreter
+        -> GoodsRowsDeleter;
+
+    GoodsRowsDeleter
+        -> GoodsColumnDeleter
+        -> GoodsTableInterpreter
+        -> GoodsSQLiteLoader;
+
+    // 3. After the pipeline structure, we define the blocks used.
+    block GoodsHttpExtractor oftype HttpExtractor {
+        url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
+    }
+
+
+
+    block GoodsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "utf8";
+    }
+
+    block GoodsCSVInterpreter oftype CSVInterpreter { 
+        delimiter: ";";
+    
+    }
+
+    block GoodsRowsDeleter oftype RowDeleter {
+        delete: [row 1,row 2,row 3,row 4,row 5,row 6,row 7,row 8];
+    }
+
+    block GoodsColumnDeleter oftype ColumnDeleter {
+        delete: [column F,column G,column H,column I,column J,column K,
+        column L,column M,column N,column O,column P,column Q,
+        column R,column S,column T,column U,column V,column W,
+        column X,column Y,column Z,column AA,column AB,column AC,
+        column AD,column AE,column AF,column AG,column AH,column AI,
+        column AJ,column AK,column AL,column AM,column AN,column AO,
+        column AP,column AQ,column AR,column AS];
+    }
+
+    
+
+    block GoodsTableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+
+            // 4.Here we are using the column names from the CSV file
+            // to define the schema of the SQLite table.
+            // The types of the columns are inferred from the data.
+
+            "year" oftype PositiveInteger,
+            "month" oftype ValidMonths,
+            "goods_id" oftype OnlyValidIds,
+            "goods_name" oftype text,
+            "goods_source" oftype text,
+            "abroad" oftype text,
+            "total" oftype text,
+        ];
+    }
+
+    // 4. We delete the column E from the table as it is not required
+    block GoodsSQLiteLoader oftype SQLiteLoader {
+        table: "goods";
+        file: "./goods.sqlite";
+    }
+
+}
+    // 5. We define constraints on the stadtteil to ensure it is valid according to the schema.
+    valuetype ValidMonths oftype text {
+        constraints: [
+            OnlyValidMonthList,
+        ];
+    }
+
+    valuetype OnlyValidIds oftype text {
+        constraints: [
+            OnlyValidIdsList,
+        ];
+    }
+    // 6. We define constraints on the coordinates to ensure it is valid according to the schema.
+    valuetype PositiveInteger oftype integer {
+        constraints: [
+            OnlyValidNumbers,
+        ];
+    }
+
+
+
+    // 7. This constraint ensures that the stadtteil is one of the valid values.For e.g, Furth-Mitte, Furth-Süd, Furth-Nord.
+    constraint OnlyValidMonthList on text:
+        value in ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+
+
+    // 8. This constraint ensures that the coordinates are in the format of "x.x, y.y".
+    constraint OnlyValidNumbers on integer:
+        value >= 0;
+
+    constraint OnlyValidIdsList on text:
+       value matches /^NST7-[A-Z0-9]{3}$/;
+
+
+
+
