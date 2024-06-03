@@ -2,38 +2,43 @@
 
 ## Title
 <!-- Give your project a short title. -->
-Is Rail Transport a better option for travel within europe to tackle climate change .
-
+Adoption of renewable energy sources affecting green house gas emmissions in europe.
 ## Main Question
 
 <!-- Think about one main question you want to answer based on the data. -->
-1. Does traveliing by train within Europe is feasible solution to avoid effect to Airlines on climate in Europe?
-
+How has the adoption of renewable energy sources impacted greenhouse gas emissions in Europe over the last two decades?
 ## Description
 
 <!-- Describe your data science project in max. 200 words. Consider writing about why and how you attempt it. -->
-In recent times, availability of cheap air travel attracts lot of people to choose Air routes as main source of travel. But we know that these cheap flights emits tons of CO2 in atmosphere which is one of the driving factors of Climate Change. In this project we are trying to analyze, whether we can use Rail Transport where it is necessary instead of flights, is this affects CO2 emission and also is it feasible(considering time and cost).We will look into data from two sources describing CO2 emission by each type of transport per passenger and also cost to travelling per km per passenger. 
-
+In recent times, many countries are focussing towards renewable energy sources as primary sources of energy. In this project we will try to find out
+whether adopting renewable energy source in mainstream energy pipeline will affect green house gas emmission across Europe, if it does affect then whether it is direct correlation or there are many other factors affecting the reduction in green house gas emmission in europe.
 ## Datasources
 
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
 ### Datasource 1: European Environment Agency
-* Metadata URL: [https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emissions-from-transport?activeAccordion=309c5ef9-de09-4759-bc02-802370dfa366]
-* Data URL: [https://www.eea.europa.eu/data-and-maps/daviz/greenhouse-gas-emissions-from-transport-8#tab-chart_1]
+* Metadata URL: [https://sdi.eea.europa.eu/catalogue/srv/api/records/6331f651-8863-4656-a911-669f2a332a1e?language=all]
+* Data URL: [https://sdi.eea.europa.eu/data/6331f651-8863-4656-a911-669f2a332a1e?path=%2FCSV]
 * Data Type: CSV
 
 Short description of the DataSource.
-This datasource contains datasource needed for this project,it present information about CO2 emissions by means of transport in europe.
+This datasource contains datasource needed for this project,it present information about CO2 emissions by countries in europe.
 
-### Datasource 2: euorstat
-* Metadata URL: [https://ec.europa.eu/eurostat/cache/metadata/en/rail_pa_total_esms.htm]
-* Data URL: [https://ec.europa.eu/eurostat/databrowser/view/rail_pa_total/default/table?lang=en&category=rail.rail_pa]
+### Datasource 2: Eurostat
+* Metadata URL: [https://ec.europa.eu/eurostat/cache/metadata/en/nrg_ind_share_esmsip2.htm]
+* Data URL: [https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_ren?format=SDMX-CSV&compressed=false]
 * Data Type: CSV
 
 Short description of the DataSource.
-This datasource contains datasource needed for this project,it present information about total number oof passengers travelled by different means of transport in europe.
+This datasource contains datasource needed for this project,it present information about share of renewable energy sources in total energy production in europe .
 
+### Datasource 3: Eurostat
+* Metadata URL: [https://ec.europa.eu/eurostat/cache/metadata/en/nrg_bal_esms.htm]
+* Data URL: [https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ten00121?format=SDMX-CSV&compressed=false]
+* Data Type: CSV
+
+Short description of the DataSource.
+This datasource contains datasource needed for this project,it present information energy balance per country in europe.
 ## Work Packages
 
 <!-- List of work packages ordered sequentially, each pointing to an issue with more details. -->
