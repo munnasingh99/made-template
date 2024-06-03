@@ -62,6 +62,7 @@ df1.columns = [ col.strip().lower() for col in df1.columns]
 df2.columns = [ col.strip().lower() for col in df2.columns]
 df3.columns = [ col.strip().lower() for col in df3.columns]
 
+# Saved file to database
 conn1 = sqlite3.connect(database1)
 df1.to_sql("dataset1",conn1, if_exists ="replace",index=False)
 conn1.close()
