@@ -90,7 +90,7 @@ pipeline TemperaturePipeline {
     // 9. SQLite file to be created with the schema defined above.
     block TemperatureSQLiteLoader oftype SQLiteLoader {
         table: "temperatures";
-        file: "./temperaturesqlite";
+        file: "./temperatures.sqlite";
     }
 
 }
