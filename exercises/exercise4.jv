@@ -1,10 +1,10 @@
 // 1. This Jayvee model describes a pipeline 
-// from a CSV file in the web 
+// from a zip file in the web to 
 // to a SQLite file with constraints on the data as mentioned in exercise slide.
 
 pipeline TemperaturePipeline {
     // See here for meta-data of the data source
-    // https://mobilithek.info/offers/-94981960701408443
+    // https://mobilithek.info/offers/526718847762190336
 
     // 2. We define the pipeline structure by referencing the blocks used.
     TemperatureExtractor
@@ -21,12 +21,12 @@ pipeline TemperaturePipeline {
         -> TemperatureSQLiteLoader;
 
     // 3. After the pipeline structure, we define the blocks used.
+    // The URL of the zip file is defined here, we are using the GTFSExtractor block.
     block TemperatureExtractor oftype GTFSExtractor {
         url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
     }
 
-
-    // 4. Encoding to handle German Umlauts.
+    // 4 . We define the encoding of the text file.
     block TemperatureTextFileInterpreter oftype TextFileInterpreter {
         encoding: "utf8";
     }
@@ -37,10 +37,12 @@ pipeline TemperaturePipeline {
     
     }
     
+    // 6. This block picks the file from the extracted zip file.(csv file in this case)
     block TemperatureFilePicker oftype FilePicker {
         path: "/data.csv";
     }
 
+    // 7. We define the columns to be written in the Excel file.
     block TemperatureCellWriter oftype CellWriter {
         at: range A1:E1;
         write: ['id','producer','model','month','temperature'];
@@ -51,12 +53,14 @@ pipeline TemperaturePipeline {
         write: ['battery_temperature'];
     }
 
-     transform CelsiusToFahrenheit {
+    // 8. We define the transformation from Celsius to Fahrenheit.
+    transform CelsiusToFahrenheit {
         from Celsius oftype decimal;
         to Fahrenheit oftype decimal;
         Fahrenheit: (Celsius * 9/5) + 32;
     }
     
+
     block CelsiusToFahrenheitTransformer oftype TableTransformer {
         inputColumns: ['temperature'];
         outputColumn: 'temperature';
@@ -69,7 +73,7 @@ pipeline TemperaturePipeline {
         use: CelsiusToFahrenheit;
     }
 
-    // 8. We define the schema of the SQLite table to be created.
+    // 9. We define the schema of the SQLite table to be created.
     block TemperatureTableInterpreter oftype TableInterpreter {
         header: true;
         columns: [
@@ -87,14 +91,14 @@ pipeline TemperaturePipeline {
         ];
     }
 
-    // 9. SQLite file to be created with the schema defined above.
+    // 10. SQLite file to be created with the schema defined above.
     block TemperatureSQLiteLoader oftype SQLiteLoader {
         table: "temperatures";
         file: "./temperatures.sqlite";
     }
 
 }
-
+    // 11. This constraint ensures that the id column is a positive integer.
     valuetype PositiveInteger oftype integer {
         constraints: [
             OnlyValidNumbers,
