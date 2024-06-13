@@ -3,6 +3,7 @@ import sqlite3
 import requests
 import zipfile
 import os
+import shutil
 
 
 url= "https://sdi.eea.europa.eu/datashare/s/ZP4CHfcEpN8jPLs/download"
@@ -34,6 +35,9 @@ for root, dirs, files in os.walk(data_dir):
 if not csv_path:
     raise FileNotFoundError("No CSV file found in the ZIP archive")
 
+shutil.move(csv_path, os.path.join(data_dir, "data1.csv"))
+
+
 url2= "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_ren?format=SDMX-CSV&compressed=false"
 
 r = requests.get(url2, allow_redirects=True)
@@ -50,9 +54,9 @@ r2 = requests.get(url3, allow_redirects=True)
 with open('data/data3.csv', 'wb') as file2:
     file2.write(r2.content)
 
-df1 = pd.read_csv("data/eea_t_national-emissions-reported_p_2024_v01_r00/CSV/UNFCCC_v27.csv")
-df2 = pd.read_csv("data2.csv")
-df3 = pd.read_csv("data3.csv")
+df1 = pd.read_csv("data/data1.csv")
+df2 = pd.read_csv("data/data2.csv")
+df3 = pd.read_csv("data/data3.csv")
 
 df1.fillna(0,inplace=True)
 df2.fillna(0,inplace=True)
@@ -74,3 +78,6 @@ conn2.close()
 conn3 = sqlite3.connect(database3)
 df3.to_sql("dataset3",conn3, if_exists ="replace",index=False)
 conn3.close()
+
+shutil.rmtree("data/eea_t_national-emissions-reported_p_2024_v01_r00",)
+shutil.rmtree("data/dataset.zip")
