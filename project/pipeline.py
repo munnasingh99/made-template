@@ -5,7 +5,7 @@ import zipfile
 import os
 import shutil
 
-
+# Download the dataset and extract the CSV file
 url= "https://sdi.eea.europa.eu/datashare/s/ZP4CHfcEpN8jPLs/download"
 data_dir = "data"
 zip_path = os.path.join(data_dir, "dataset.zip")
@@ -13,7 +13,6 @@ csv_path = None
 database1 = os.path.join(data_dir,"database1.db")
 database2 = os.path.join(data_dir,"database2.db")
 database3 = os.path.join(data_dir,"database3.db")
-
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
 
@@ -34,26 +33,22 @@ for root, dirs, files in os.walk(data_dir):
 
 if not csv_path:
     raise FileNotFoundError("No CSV file found in the ZIP archive")
-
 shutil.move(csv_path, os.path.join(data_dir, "data1.csv"))
 
 
+# Download the dataset and extract the CSV file
 url2= "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nrg_ind_ren?format=SDMX-CSV&compressed=false"
-
 r = requests.get(url2, allow_redirects=True)
-
 with open('data/data2.csv', 'wb') as file:
-
     file.write(r.content)
 
-
+# Download the dataset and extract the CSV file
 url3= "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ten00121?format=SDMX-CSV&compressed=false"
-
 r2 = requests.get(url3, allow_redirects=True)
-
 with open('data/data3.csv', 'wb') as file2:
     file2.write(r2.content)
 
+# Read the CSV file and save it to a SQLite database
 df1 = pd.read_csv("data/data1.csv")
 df2 = pd.read_csv("data/data2.csv")
 df3 = pd.read_csv("data/data3.csv")
@@ -79,5 +74,5 @@ conn3 = sqlite3.connect(database3)
 df3.to_sql("dataset3",conn3, if_exists ="replace",index=False)
 conn3.close()
 
+# Remove the downloaded files
 shutil.rmtree("data/eea_t_national-emissions-reported_p_2024_v01_r00",)
-shutil.rmtree("data/dataset.zip")
