@@ -20,6 +20,7 @@ pipeline StopsPipeline {
 
     block StopsCSVInterpreter oftype CSVInterpreter { 
         delimiter: ",";
+        enclosing: '"';
     
     }
     
@@ -28,7 +29,7 @@ pipeline StopsPipeline {
     }
 
     block StopColumnDeleter oftype ColumnDeleter{
-        delete: [column B,column C,column D,column H,column I,column J,column K,
+        delete: [column B,column D,column H,column I,column J,column K,
         column L];
     }
 
@@ -36,9 +37,10 @@ pipeline StopsPipeline {
         header: false;
         columns: [
             "stop_id" oftype text,
+            "stop_name" oftype text,
             "stop_lat" oftype LatAndLon,
             "stop_lon" oftype LatAndLon,
-            "zone_id" oftype text,
+            "zone_id" oftype zone_id,
 
         ];
     }
@@ -55,13 +57,18 @@ pipeline StopsPipeline {
         ];
     }
 
-    
+
 
     constraint OnlyValidLatAndLon on text:
         value matches /(-?(90(\.0+)?|[1-8]?\d(\.\d+)?))/;
 
     
-    
+    valuetype zone_id oftype text {
+        constraints: [
+            OnlyValidZone,
+        ];
+    }   
 
-
+    constraint OnlyValidZone on text:
+        value in ["1645"];
 
