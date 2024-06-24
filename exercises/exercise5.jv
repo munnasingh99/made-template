@@ -1,0 +1,67 @@
+pipeline StopsPipeline {
+
+    StopsExtractor
+        -> StopsFilePicker
+        -> StopsTextFileInterpreter
+        -> StopsCSVInterpreter;
+
+    StopsCSVInterpreter
+        -> StopColumnDeleter
+        -> StopsTableInterpreter
+        -> StopsSQLiteLoader;
+
+    block StopsExtractor oftype GTFSExtractor {
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+    }
+
+    block StopsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin2";
+    }
+
+    block StopsCSVInterpreter oftype CSVInterpreter { 
+        delimiter: ",";
+    
+    }
+    
+    block StopsFilePicker oftype FilePicker {
+        path: "/stops.txt";
+    }
+
+    block StopColumnDeleter oftype ColumnDeleter{
+        delete: [column B,column C,column D,column H,column I,column J,column K,
+        column L];
+    }
+
+    block StopsTableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "stop_id" oftype text,
+            "stop_lat" oftype LatAndLon,
+            "stop_lon" oftype LatAndLon,
+            "zone_id" oftype text,
+
+        ];
+    }
+
+    block StopsSQLiteLoader oftype SQLiteLoader {
+        table: "stops";
+        file: "./gtfs.sqlite";
+    }
+
+}
+    valuetype LatAndLon oftype text {
+        constraints: [
+            OnlyValidLatAndLon,
+        ];
+    }
+
+    
+
+    constraint OnlyValidLatAndLon on text:
+        value matches /(-?(90(\.0+)?|[1-8]?\d(\.\d+)?))/;
+
+    
+    
+
+
+
