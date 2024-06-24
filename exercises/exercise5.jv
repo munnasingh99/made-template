@@ -36,7 +36,7 @@ pipeline StopsPipeline {
     block StopsTableInterpreter oftype TableInterpreter {
         header: false;
         columns: [
-            "stop_id" oftype text,
+            "stop_id" oftype integer,
             "stop_name" oftype text,
             "stop_lat" oftype LatAndLon,
             "stop_lon" oftype LatAndLon,
@@ -63,12 +63,12 @@ pipeline StopsPipeline {
         value matches /(-?(90(\.0+)?|[1-8]?\d(\.\d+)?))/;
 
     
-    valuetype zone_id oftype text {
+    valuetype zone_id oftype integer {
         constraints: [
             OnlyValidZone,
         ];
     }   
 
-    constraint OnlyValidZone on text:
-        value in ["1645"];
+    constraint OnlyValidZone on integer:
+        value == 1645;
 
