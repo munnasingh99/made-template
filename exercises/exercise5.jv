@@ -38,8 +38,8 @@ pipeline StopsPipeline {
         columns: [
             "stop_id" oftype integer,
             "stop_name" oftype text,
-            "stop_lat" oftype LatAndLon,
-            "stop_lon" oftype LatAndLon,
+            "stop_lat" oftype decimal,
+            "stop_lon" oftype decimal,
             "zone_id" oftype zone_id,
 
         ];
@@ -51,18 +51,6 @@ pipeline StopsPipeline {
     }
 
 }
-    valuetype LatAndLon oftype text {
-        constraints: [
-            OnlyValidLatAndLon,
-        ];
-    }
-
-
-
-    constraint OnlyValidLatAndLon on text:
-        value matches /(-?(90(\.0+)?|[1-8]?\d(\.\d+)?))/;
-
-    
     valuetype zone_id oftype integer {
         constraints: [
             OnlyValidZone,
