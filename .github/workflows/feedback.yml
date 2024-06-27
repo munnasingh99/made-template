@@ -10,22 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      # Install python
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
       
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           repository: munnasingh99/made-template
           path: app
 
-      # Run project feeback to test
-      - name: Project Feedback
-        id: project_feedback
+      - name: Running Pipeline
+        id: pipeline_feedback
+        working-directory: ./app/project
+        run: |
+          bash ./pipeline.sh
+
+      - name: Testing Pipeline
+        id: test_feedback
         working-directory: ./app/project
         run: |
           bash ./tests.sh
