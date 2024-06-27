@@ -26,7 +26,8 @@ jobs:
       # Run project feeback to test
       - name: Project Feedback
         id: project_feedback
+        working-directory: ./app/project
         run: |
-          bash ./app/project/tests.sh
+          bash ./tests.sh
 
       
