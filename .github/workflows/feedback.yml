@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  exercise-feedback:
+  project-feedback:
     runs-on: ubuntu-latest
     steps:
       
