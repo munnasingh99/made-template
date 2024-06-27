@@ -1,4 +1,5 @@
-// Exercise 5: Stops Pipeline using GTFS data
+// Exercise 5: Stops Pipeline using GTFS data 
+// This creates a pipeline that extracts stops data from a GTFS file. Then it interprets data, and loads it into a SQLite database.
 pipeline StopsPipeline {
 
     StopsExtractor
