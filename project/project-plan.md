@@ -6,7 +6,7 @@ Adoption of renewable energy sources affecting green house gas emmissions in eur
 ## Main Question
 
 <!-- Think about one main question you want to answer based on the data. -->
-How has the adoption of renewable energy sources impacted greenhouse gas emissions in Europe over the last two decades?
+How has the adoption of renewable energy sources impacted greenhouse gas emissions in Europe over the last decade?
 ## Description
 
 <!-- Describe your data science project in max. 200 words. Consider writing about why and how you attempt it. -->
